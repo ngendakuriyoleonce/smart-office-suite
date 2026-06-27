@@ -12,6 +12,7 @@ class DepartmentController extends Controller
 {
     public function index(): View
     {
+        $this->authorize('viewAny', Department::class);
         $departments = Department::with('manager')->latest()->paginate(10);
 
         return view('departments.index', compact('departments'));
@@ -19,11 +20,13 @@ class DepartmentController extends Controller
 
     public function create(): View
     {
+        $this->authorize('create', Department::class);
         return view('departments.create');
     }
 
     public function store(StoreDepartmentRequest $request): RedirectResponse
     {
+        $this->authorize('create', Department::class);
         Department::create($request->validated());
 
         return to_route('departments.index')->with('success', 'Department created successfully.');
@@ -31,16 +34,19 @@ class DepartmentController extends Controller
 
     public function show(Department $department): View
     {
+        $this->authorize('view', $department);
         return view('departments.show', compact('department'));
     }
 
     public function edit(Department $department): View
     {
+        $this->authorize('update', $department);
         return view('departments.edit', compact('department'));
     }
 
     public function update(UpdateDepartmentRequest $request, Department $department): RedirectResponse
     {
+        $this->authorize('update', $department);
         $department->update($request->validated());
 
         return to_route('departments.index')->with('success', 'Department updated successfully.');
@@ -48,6 +54,7 @@ class DepartmentController extends Controller
 
     public function destroy(Department $department): RedirectResponse
     {
+        $this->authorize('delete', $department);
         $department->delete();
 
         return to_route('departments.index')->with('success', 'Department deleted successfully.');

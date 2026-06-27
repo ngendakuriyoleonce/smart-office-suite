@@ -13,41 +13,48 @@ class PositionController extends Controller
 {
     public function index(): View
     {
+        $this->authorize('viewAny', Position::class);
         $positions = Position::with('department')->latest()->paginate(10);
         return view('positions.index', compact('positions'));
     }
 
     public function create(): View
     {
+        $this->authorize('create', Position::class);
         $departments = Department::all();
         return view('positions.create', compact('departments'));
     }
 
     public function store(StorePositionRequest $request): RedirectResponse
     {
+        $this->authorize('create', Position::class);
         Position::create($request->validated());
         return to_route('positions.index')->with('success', 'Position created successfully.');
     }
 
     public function show(Position $position): View
     {
+        $this->authorize('view', $position);
         return view('positions.show', compact('position'));
     }
 
     public function edit(Position $position): View
     {
+        $this->authorize('update', $position);
         $departments = Department::all();
         return view('positions.edit', compact('position', 'departments'));
     }
 
     public function update(UpdatePositionRequest $request, Position $position): RedirectResponse
     {
+        $this->authorize('update', $position);
         $position->update($request->validated());
         return to_route('positions.index')->with('success', 'Position updated successfully.');
     }
 
     public function destroy(Position $position): RedirectResponse
     {
+        $this->authorize('delete', $position);
         $position->delete();
         return to_route('positions.index')->with('success', 'Position deleted successfully.');
     }
