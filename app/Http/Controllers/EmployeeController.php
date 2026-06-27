@@ -16,12 +16,14 @@ class EmployeeController extends Controller
 {
     public function index(): View
     {
+        $this->authorize('viewAny', Employee::class);
         $employees = Employee::with('user', 'department', 'position')->latest()->paginate(10);
         return view('employees.index', compact('employees'));
     }
 
     public function create(): View
     {
+        $this->authorize('create', Employee::class);
         $departments = Department::all();
         $positions = Position::all();
         return view('employees.create', compact('departments', 'positions'));
@@ -29,6 +31,7 @@ class EmployeeController extends Controller
 
     public function store(StoreEmployeeRequest $request): RedirectResponse
     {
+        $this->authorize('create', Employee::class);
         $user = User::create([
             'name' => $request->first_name . ' ' . $request->last_name,
             'email' => $request->email,
@@ -44,12 +47,14 @@ class EmployeeController extends Controller
 
     public function show(Employee $employee): View
     {
+        $this->authorize('view', $employee);
         $employee->load('user', 'department', 'position');
         return view('employees.show', compact('employee'));
     }
 
     public function edit(Employee $employee): View
     {
+        $this->authorize('update', $employee);
         $departments = Department::all();
         $positions = Position::all();
         return view('employees.edit', compact('employee', 'departments', 'positions'));
@@ -57,6 +62,7 @@ class EmployeeController extends Controller
 
     public function update(UpdateEmployeeRequest $request, Employee $employee): RedirectResponse
     {
+        $this->authorize('update', $employee);
         $employee->user->update([
             'name' => $request->first_name . ' ' . $request->last_name,
             'email' => $request->email,
@@ -69,6 +75,7 @@ class EmployeeController extends Controller
 
     public function destroy(Employee $employee): RedirectResponse
     {
+        $this->authorize('delete', $employee);
         $employee->delete();
         return to_route('employees.index')->with('success', 'Employee deleted successfully.');
     }
