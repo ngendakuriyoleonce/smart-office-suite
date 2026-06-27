@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Facades\OpenCodeAI;
+use App\OpenCodeAI;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 

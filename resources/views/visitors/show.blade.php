@@ -44,10 +44,45 @@
                         </div>
                     </dl>
 
+                    @if ($summary)
+                        <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded">
+                            <dt class="text-sm font-medium text-blue-700">AI Summary</dt>
+                            <dd class="mt-1 text-sm text-blue-900">{{ $summary }}</dd>
+                        </div>
+                    @endif
+
+                    @if ($visitor->badge_qr)
+                        <div class="mt-6">
+                            <dt class="text-sm font-medium text-gray-500 mb-2">Badge</dt>
+                            <img src="{{ $visitor->badge_qr }}" alt="Visitor Badge" class="w-48 h-48 object-cover rounded border">
+                        </div>
+                    @endif
+
                     <div class="mt-6 flex items-center gap-4">
                         <a href="{{ route('visitors.edit', $visitor) }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
                             Edit
                         </a>
+
+                        @unless ($visitor->check_in)
+                            <form action="{{ route('visitors.check-in', $visitor) }}" method="POST" class="inline">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500">
+                                    Check In
+                                </button>
+                            </form>
+                        @else
+                            @unless ($visitor->check_out)
+                                <form action="{{ route('visitors.check-out', $visitor) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-yellow-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-yellow-500">
+                                        Check Out
+                                    </button>
+                                </form>
+                            @endunless
+                        @endunless
+
                         <a href="{{ route('visitors.index') }}" class="text-sm text-gray-600 hover:text-gray-900">Back to list</a>
                     </div>
                 </div>

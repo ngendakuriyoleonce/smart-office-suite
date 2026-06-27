@@ -24,6 +24,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('positions', PositionController::class);
     Route::resource('employees', EmployeeController::class);
     Route::resource('visitors', VisitorController::class);
+
+    Route::patch('/visitors/{visitor}/check-in', [VisitorController::class, 'checkIn'])->name('visitors.check-in');
+    Route::patch('/visitors/{visitor}/check-out', [VisitorController::class, 'checkOut'])->name('visitors.check-out');
 });
 
 require __DIR__.'/auth.php';
