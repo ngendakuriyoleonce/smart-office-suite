@@ -19,7 +19,7 @@ class EmployeePolicy
 
     public function create(User $user): bool
     {
-        return $user->can('employee-create');
+        return  true;
     }
 
     public function update(User $user, Employee $employee): bool
