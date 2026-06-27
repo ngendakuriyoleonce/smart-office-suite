@@ -10,7 +10,9 @@ use App\Services\OpenAIService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class VisitorController extends Controller
 {
@@ -73,10 +75,20 @@ class VisitorController extends Controller
         $visitor->update(['check_in' => Carbon::now()]);
 
         try {
-            $badgeUrl = $this->openAI->generateBadgeImage($visitor->full_name, $visitor->company ?? 'Guest');
-            $visitor->update(['badge_qr' => $badgeUrl]);
+            $data = json_encode([
+                'name' => $visitor->full_name,
+                'company' => $visitor->company,
+                'email' => $visitor->email,
+                'check_in' => $visitor->check_in->toDateTimeString(),
+                'host' => $visitor->host->full_name,
+            ]);
+
+            $filename = 'qrcodes/visitor-' . $visitor->id . '-' . now()->timestamp . '.svg';
+            Storage::disk('public')->put($filename, QrCode::format('svg')->generate($data));
+
+            $visitor->update(['badge_qr' => 'storage/' . $filename]);
         } catch (\Exception $e) {
-            Log::warning('Badge generation failed: ' . $e->getMessage());
+            Log::warning('QR generation failed: ' . $e->getMessage());
         }
 
         return to_route('visitors.show', $visitor)->with('success', 'Visitor checked in successfully.');

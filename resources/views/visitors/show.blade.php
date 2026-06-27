@@ -53,8 +53,8 @@
 
                     @if ($visitor->badge_qr)
                         <div class="mt-6">
-                            <dt class="text-sm font-medium text-gray-500 mb-2">Badge</dt>
-                            <img src="{{ $visitor->badge_qr }}" alt="Visitor Badge" class="w-48 h-48 object-cover rounded border">
+                            <dt class="text-sm font-medium text-gray-500 mb-2">QR Badge</dt>
+                            <img src="{{ asset($visitor->badge_qr) }}" alt="QR Badge for {{ $visitor->full_name }}" class="w-48 h-48 rounded border">
                         </div>
                     @endif
 
