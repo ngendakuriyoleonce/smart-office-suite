@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\MeetingRoomController;
 use App\Http\Controllers\VisitorController;
 
 Route::get('/', function () {
@@ -25,6 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('positions', PositionController::class);
     Route::resource('employees', EmployeeController::class);
     Route::resource('visitors', VisitorController::class);
+    Route::resource('meeting-rooms', MeetingRoomController::class);
 
     Route::patch('/visitors/{visitor}/check-in', [VisitorController::class, 'checkIn'])->name('visitors.check-in');
     Route::patch('/visitors/{visitor}/check-out', [VisitorController::class, 'checkOut'])->name('visitors.check-out');

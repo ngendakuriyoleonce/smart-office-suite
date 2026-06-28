@@ -27,6 +27,9 @@
                     <x-nav-link :href="route('visitors.index')" :active="request()->routeIs('visitors.*')">
                         {{ __('Visitors') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('meeting-rooms.index')" :active="request()->routeIs('meeting-rooms.*')">
+                        {{ __('Meeting Rooms') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -103,6 +106,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('visitors.index')" :active="request()->routeIs('visitors.*')">
                 {{ __('Visitors') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('meeting-rooms.index')" :active="request()->routeIs('meeting-rooms.*')">
+                {{ __('Meeting Rooms') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('notifications.index')" :active="request()->routeIs('notifications.*')">
                 {{ __('Notifications') }}
