@@ -4,10 +4,12 @@ namespace App\Providers;
 
 use App\Models\Department;
 use App\Models\Employee;
+use App\Models\MeetingRoom;
 use App\Models\Position;
 use App\Models\Visitor;
 use App\Policies\DepartmentPolicy;
 use App\Policies\EmployeePolicy;
+use App\Policies\MeetingRoomPolicy;
 use App\Policies\PositionPolicy;
 use App\Policies\VisitorPolicy;
 use Illuminate\Support\Facades\Gate;
@@ -26,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Employee::class, EmployeePolicy::class);
         Gate::policy(Position::class, PositionPolicy::class);
         Gate::policy(Visitor::class, VisitorPolicy::class);
+        Gate::policy(MeetingRoom::class, MeetingRoomPolicy::class);
     }
 }
