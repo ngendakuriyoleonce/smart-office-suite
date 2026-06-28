@@ -44,8 +44,24 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $visitor->company ?? '—' }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $visitor->host->full_name }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $visitor->check_in ? \Carbon\Carbon::parse($visitor->check_in)->format('M d, Y g:i A') : '—' }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $visitor->check_out ? \Carbon\Carbon::parse($visitor->check_out)->format('M d, Y g:i A') : '—' }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                            @if ($visitor->check_in)
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                    {{ \Carbon\Carbon::parse($visitor->check_in)->format('M d, Y g:i A') }}
+                                                </span>
+                                            @else
+                                                <span class="text-gray-500">—</span>
+                                            @endif
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                            @if ($visitor->check_out)
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                                    {{ \Carbon\Carbon::parse($visitor->check_out)->format('M d, Y g:i A') }}
+                                                </span>
+                                            @else
+                                                <span class="text-gray-500">—</span>
+                                            @endif
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                                             <a href="{{ route('visitors.edit', $visitor) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
                                             <form action="{{ route('visitors.destroy', $visitor) }}" method="POST" class="inline-block">

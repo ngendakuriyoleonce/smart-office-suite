@@ -73,12 +73,18 @@
                             </form>
                         @else
                             @unless ($visitor->check_out)
-                                <form action="{{ route('visitors.check-out', $visitor) }}" method="POST" class="inline">
+                                <form action="{{ route('visitors.check-out', $visitor) }}" method="POST">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-yellow-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-yellow-500">
-                                        Check Out
-                                    </button>
+                                    <div class="flex items-center gap-3">
+                                        <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:ring-2 focus:ring-red-300">
+                                            <svg class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            Check Out
+                                        </button>
+                                        <span class="text-xs text-gray-500">Mark this visitor as checked out</span>
+                                    </div>
                                 </form>
                             @endunless
                         @endunless

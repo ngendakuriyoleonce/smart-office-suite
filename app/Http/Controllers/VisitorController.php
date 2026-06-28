@@ -6,6 +6,7 @@ use App\Http\Requests\StoreVisitorRequest;
 use App\Http\Requests\UpdateVisitorRequest;
 use App\Models\Employee;
 use App\Models\Visitor;
+use App\Notifications\VisitorCheckedIn;
 use App\Services\OpenAIService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -34,7 +35,12 @@ class VisitorController extends Controller
 
     public function store(StoreVisitorRequest $request): RedirectResponse
     {
-        Visitor::create($request->validated());
+        $visitor = Visitor::create($request->validated());
+
+        if ($visitor->host?->user) {
+            $visitor->host->user->notify(new VisitorCheckedIn($visitor, 'assigned'));
+        }
+
         return to_route('visitors.index')->with('success', 'Visitor created successfully.');
     }
 
@@ -89,6 +95,10 @@ class VisitorController extends Controller
             $visitor->update(['badge_qr' => 'storage/' . $filename]);
         } catch (\Exception $e) {
             Log::warning('QR generation failed: ' . $e->getMessage());
+        }
+
+        if ($visitor->host?->user) {
+            $visitor->host->user->notify(new VisitorCheckedIn($visitor));
         }
 
         return to_route('visitors.show', $visitor)->with('success', 'Visitor checked in successfully.');
