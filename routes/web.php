@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\AssetCategoryController;
 use App\Http\Controllers\MeetingBookingController;
 use App\Http\Controllers\MeetingRoomController;
 use App\Http\Controllers\VisitorController;
@@ -29,6 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('visitors', VisitorController::class);
     Route::resource('meeting-rooms', MeetingRoomController::class);
     Route::resource('meeting-bookings', MeetingBookingController::class);
+    Route::resource('asset-categories', AssetCategoryController::class);
 
     Route::patch('/visitors/{visitor}/check-in', [VisitorController::class, 'checkIn'])->name('visitors.check-in');
     Route::patch('/visitors/{visitor}/check-out', [VisitorController::class, 'checkOut'])->name('visitors.check-out');

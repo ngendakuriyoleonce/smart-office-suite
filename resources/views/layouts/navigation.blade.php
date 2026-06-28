@@ -33,6 +33,9 @@
                     <x-nav-link :href="route('meeting-bookings.index')" :active="request()->routeIs('meeting-bookings.*')">
                         {{ __('Bookings') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('asset-categories.index')" :active="request()->routeIs('asset-categories.*')">
+                        {{ __('Asset Categories') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -115,6 +118,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('meeting-bookings.index')" :active="request()->routeIs('meeting-bookings.*')">
                 {{ __('Bookings') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('asset-categories.index')" :active="request()->routeIs('asset-categories.*')">
+                {{ __('Asset Categories') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('notifications.index')" :active="request()->routeIs('notifications.*')">
                 {{ __('Notifications') }}

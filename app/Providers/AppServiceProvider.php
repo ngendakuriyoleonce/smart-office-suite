@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\AssetCategory;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\MeetingRoom;
 use App\Models\Position;
 use App\Models\Visitor;
+use App\Policies\AssetCategoryPolicy;
 use App\Policies\DepartmentPolicy;
 use App\Policies\EmployeePolicy;
 use App\Policies\MeetingRoomPolicy;
@@ -29,5 +31,6 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Position::class, PositionPolicy::class);
         Gate::policy(Visitor::class, VisitorPolicy::class);
         Gate::policy(MeetingRoom::class, MeetingRoomPolicy::class);
+        Gate::policy(AssetCategory::class, AssetCategoryPolicy::class);
     }
 }
